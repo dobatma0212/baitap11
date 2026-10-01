@@ -56,3 +56,18 @@ table.data-table th { background: #1a3c6e; color: #fff; }
 table.cart-table td { vertical-align: middle; }
 table.cart-table .cart-total td { background: #f0f3fa; font-size: 15px; }
 .btn-del { border: none; cursor: pointer; }
+
+/* ===== Thanh toán / Đơn hàng ===== */
+.checkout-layout { display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start; }
+.checkout-layout .checkout-form { flex: 1 1 360px; max-width: none; margin: 0; }
+.checkout-layout .checkout-summary { flex: 1 1 360px; }
+.checkout-form .pay-method { padding: 10px; background: #f0f3fa; border-radius: 4px; margin-top: 4px; font-size: 14px; }
+.checkout-form .pay-method input { width: auto; margin: 0 4px 0 0; }
+.checkout-form .pay-method small { display: block; margin-top: 4px; color: #555; }
+.checkout-form .back-link { display: inline-block; margin-left: 14px; font-size: 14px; }
+.btn-checkout { background: #1a5fb4; color: #fff; }
+.status { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 12px; background: #eee; }
+.status-1 { background: #fff3cd; color: #8a6d00; }
+.status-2 { background: #d6e9ff; color: #0b4a9e; }
+.status-3 { background: #e3f6e8; color: #0a7d27; }
+.status-4 { background: #fdeaea; color: #b40000; }

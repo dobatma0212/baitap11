@@ -30,7 +30,7 @@ public class UserAuthFilter_24162025 implements Filter {
             return;
         }
         if (currentUser.getRoleId() != ROLE_USER) {
-            req.setAttribute("errorMessage", "Giỏ hàng chỉ dành cho tài khoản User.");
+            req.setAttribute("errorMessage", "Chức năng giỏ hàng, thanh toán và đơn hàng chỉ dành cho tài khoản User.");
             res.setStatus(HttpServletResponse.SC_FORBIDDEN);
             req.getRequestDispatcher("/views/error_24162025.jsp").forward(req, res);
             return;

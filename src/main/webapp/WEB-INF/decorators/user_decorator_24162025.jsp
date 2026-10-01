@@ -15,6 +15,7 @@
             <a href="${pageContext.request.contextPath}/products">Sản phẩm</a>
             <c:if test="${sessionScope.currentUser.roleId == 3}">
                 <a href="${pageContext.request.contextPath}/cart">Giỏ hàng (${empty sessionScope.cartCount ? 0 : sessionScope.cartCount})</a>
+                <a href="${pageContext.request.contextPath}/orders">Đơn hàng</a>
             </c:if>
             <c:choose>
                 <c:when test="${empty sessionScope.currentUser}">

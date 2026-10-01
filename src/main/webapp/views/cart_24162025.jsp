@@ -61,6 +61,7 @@
 
         <div class="action-bar" style="margin-top:14px;">
             <a class="btn btn-add" href="${pageContext.request.contextPath}/products">&laquo; Tiếp tục mua sắm</a>
+            <a class="btn btn-checkout" href="${pageContext.request.contextPath}/checkout">Thanh toán (COD) &raquo;</a>
             <form method="post" action="${pageContext.request.contextPath}/cart" style="display:inline;"
                   onsubmit="return confirm('Xóa toàn bộ sản phẩm trong giỏ hàng?');">
                 <input type="hidden" name="action" value="clear" />

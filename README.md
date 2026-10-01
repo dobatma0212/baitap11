@@ -42,7 +42,8 @@ Mật khẩu mặc định cho **TẤT CẢ** các tài khoản dưới đây l�
 ├── README.md                               # Hướng dẫn dự án và tài khoản mặc định
 ├── sql/
 │   ├── database_24162025.sql               # Tạo CSDL, cấu trúc bảng và nạp dữ liệu mẫu
-│   └── cart_patch_24162025.sql             # Ràng buộc UNIQUE & CHECK cho giỏ hàng
+│   ├── cart_patch_24162025.sql             # Ràng buộc UNIQUE & CHECK cho giỏ hàng
+│   └── checkout_patch_24162025.sql         # Thêm cột thông tin giao hàng / COD cho bảng Cart
 └── src/
     └── main/
         ├── java/com/dado/project24162025/
@@ -51,6 +52,8 @@ Mật khẩu mặc định cho **TẤT CẢ** các tài khoản dưới đây l�
         │   │   ├── ProductListController_..# Danh sách sản phẩm, lọc, phân trang
         │   │   ├── ProductDetailController_# Chi tiết sản phẩm
         │   │   ├── CartController_...      # Giỏ hàng (thêm, cập nhật số lượng tự động, xóa)
+        │   │   ├── CheckoutController_...  # Thanh toán COD (form giao hàng, đặt hàng)
+        │   │   ├── OrderController_...     # Danh sách / chi tiết đơn hàng của tôi
         │   │   ├── LoginController_...     # Đăng nhập
         │   │   ├── LogoutController_...    # Đăng xuất
         │   │   ├── RegisterController_...  # Đăng ký tài khoản
@@ -67,6 +70,9 @@ Mật khẩu mặc định cho **TẤT CẢ** các tài khoản dưới đây l�
             ├── views/                      # Các trang JSP giao diện người dùng
             │   ├── admin/                  # Giao diện quản trị Admin
             │   ├── cart_24162025.jsp       # Giao diện giỏ hàng
+            │   ├── checkout_24162025.jsp   # Giao diện thanh toán COD
+            │   ├── orderList_24162025.jsp  # Danh sách đơn hàng
+            │   ├── orderDetail_24162025.jsp# Chi tiết đơn hàng
             │   └── ...
             └── WEB-INF/
                 ├── decorators/             # Template layout SiteMesh cho User & Admin
@@ -82,6 +88,7 @@ Mật khẩu mặc định cho **TẤT CẢ** các tài khoản dưới đây l�
 1. Mở **SQL Server Management Studio (SSMS)**.
 2. Mở và thực thi file [sql/database_24162025.sql](file:///f:/Web%20design/24162025_06_cart/sql/database_24162025.sql) để tạo database `OnlineShop_24162025` và nạp dữ liệu mẫu ban đầu.
 3. Thực thi tiếp file [sql/cart_patch_24162025.sql](file:///f:/Web%20design/24162025_06_cart/sql/cart_patch_24162025.sql) để thêm các ràng buộc toàn vẹn cho giỏ hàng.
+4. Thực thi tiếp file `sql/checkout_patch_24162025.sql` để thêm các cột thông tin giao hàng / thanh toán COD vào bảng `Cart` **(bắt buộc để dùng chức năng thanh toán)**.
 
 ### 2. Cấu hình Kết nối CSDL
 Nếu tài khoản hoặc mật khẩu SQL Server của bạn khác mặc định, vui lòng cập nhật trong file:
@@ -118,12 +125,18 @@ Nếu tài khoản hoặc mật khẩu SQL Server của bạn khác mặc địn
   - Tự động cập nhật số lượng khi nhập tay vào ô số lượng hoặc nhấn `Enter`.
   - Cảnh báo tồn kho khi vượt quá số lượng trong kho hoặc sản phẩm đã ngừng bán.
   - Xóa từng sản phẩm hoặc làm trống toàn bộ giỏ hàng.
+- **Thanh toán COD & Đơn hàng (Chức năng dành cho User)**:
+  - Từ giỏ hàng bấm **Thanh toán (COD)** (`/checkout`): nhập họ tên, số điện thoại, địa chỉ giao hàng, ghi chú (họ tên/SĐT được điền sẵn từ tài khoản).
+  - Đặt hàng chạy trong **một transaction**: chuyển giỏ thành đơn (`Cart.status = 1`), trừ tồn kho (`Product.amount`), chốt đơn giá, tính tổng tiền. Lỗi ở bước nào thì rollback toàn bộ.
+  - Chặn đặt trùng (bấm đúp / mở 2 tab) và chặn bán quá tồn kho khi nhiều người mua cùng lúc.
+  - Xem **Đơn hàng của tôi** (`/orders`) và chi tiết từng đơn (`/orders?id=...`).
+  - Trạng thái `Cart.status`: 0 = giỏ hàng, 1 = chờ xác nhận, 2 = đang giao, 3 = hoàn thành, 4 = đã hủy.
 - **Xác thực & Bảo mật**:
   - Đăng ký tài khoản mới kèm cơ chế gửi mã OTP xác thực (nếu không cấu hình SMTP thật, OTP sẽ hiển thị ở console log của server).
   - Đăng nhập, đăng xuất, lưu session an toàn.
   - Mật khẩu mã hóa một chiều SHA-256.
   - Bộ lọc `AuthFilter` bảo vệ vùng quản trị `/admin/*` (chỉ role Admin mới truy cập được).
-  - Bộ lọc `UserAuthFilter` yêu cầu đăng nhập trước khi thao tác giỏ hàng `/cart`.
+  - Bộ lọc `UserAuthFilter` chỉ cho phép tài khoản User truy cập `/cart`, `/checkout`, `/orders`.
 - **Khu vực Quản trị (Admin)**:
   - Quản lý người dùng: Xem danh sách, thêm người dùng mới, cập nhật thông tin/vai trò, xóa người dùng.
   - Quản lý danh mục: Thêm, sửa, xóa các danh mục hàng hóa.

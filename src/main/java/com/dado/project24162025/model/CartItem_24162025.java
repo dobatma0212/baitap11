@@ -25,6 +25,9 @@ public class CartItem_24162025 {
     /** Thành tiền = số lượng x giá hiện tại của sản phẩm. */
     public double getLineTotal() { return quantity * currentPrice; }
 
+    /** Thành tiền theo đơn giá đã chốt khi đặt hàng (dùng cho đơn hàng đã đặt). */
+    public double getOrderLineTotal() { return quantity * unitPrice; }
+
     /** Sản phẩm còn được bán hay không. */
     public boolean isOnSale() { return productStatus == 1; }
 
