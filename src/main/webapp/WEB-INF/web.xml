@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
+         version="6.0">
+
+    <display-name>DeThi06_BienTanDo_24162025</display-name>
+
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+
+    <filter>
+        <filter-name>sitemesh</filter-name>
+        <filter-class>org.sitemesh.config.ConfigurableSiteMeshFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>sitemesh</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>ERROR</dispatcher>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>AuthFilter_24162025</filter-name>
+        <filter-class>com.dado.project24162025.filter.AuthFilter_24162025</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AuthFilter_24162025</filter-name>
+        <url-pattern>/admin/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>UserAuthFilter_24162025</filter-name>
+        <filter-class>com.dado.project24162025.filter.UserAuthFilter_24162025</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>UserAuthFilter_24162025</filter-name>
+        <url-pattern>/cart</url-pattern>
+    </filter-mapping>
+
+    <servlet>
+        <servlet-name>HomeController</servlet-name>
+        <servlet-class>com.dado.project24162025.controller.HomeController_24162025</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>HomeController</servlet-name>
+        <url-pattern>/home</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>RegisterController</servlet-name>
+        <servlet-class>com.dado.project24162025.controller.RegisterController_24162025</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RegisterController</servlet-name>
+        <url-pattern>/register</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>OtpController</servlet-name>
+        <servlet-class>com.dado.project24162025.controller.OtpController_24162025</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>OtpController</servlet-name>
+        <url-pattern>/verify-otp</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>LoginController</servlet-name>
+        <servlet-class>com.dado.project24162025.controller.LoginController_24162025</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LoginController</servlet-name>
+        <url-pattern>/login</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>LogoutController</servlet-name>
+        <servlet-class>com.dado.project24162025.controller.LogoutController_24162025</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LogoutController</servlet-name>
+        <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ProductListController</servlet-name>
+        <servlet-class>com.dado.project24162025.controller.ProductListController_24162025</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ProductListController</servlet-name>
+        <url-pattern>/products</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ProductDetailController</servlet-name>
+        <servlet-class>com.dado.project24162025.controller.ProductDetailController_24162025</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ProductDetailController</servlet-name>
+        <url-pattern>/product-detail</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>CartController</servlet-name>
+        <servlet-class>com.dado.project24162025.controller.CartController_24162025</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CartController</servlet-name>
+        <url-pattern>/cart</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>UserCrudController</servlet-name>
+        <servlet-class>com.dado.project24162025.controller.UserCrudController_24162025</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UserCrudController</servlet-name>
+        <url-pattern>/admin/users</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>CategoryCrudController</servlet-name>
+        <servlet-class>com.dado.project24162025.controller.CategoryCrudController_24162025</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CategoryCrudController</servlet-name>
+        <url-pattern>/admin/categories</url-pattern>
+    </servlet-mapping>
+
+    <session-config>
+        <session-timeout>30</session-timeout>
+    </session-config>
+
+</web-app>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sitemesh>
+    <decorator-prefix>/WEB-INF/decorators/</decorator-prefix>
+
+    <mapping path="/admin/*" decorator="admin_decorator_24162025.jsp" />
+
+    <mapping path="/*" decorator="user_decorator_24162025.jsp" />
+
+    <mapping path="/assets/*" exclude="true" />
+</sitemesh>
