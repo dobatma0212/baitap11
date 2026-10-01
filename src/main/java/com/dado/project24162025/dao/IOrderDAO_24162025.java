@@ -17,6 +17,12 @@ public interface IOrderDAO_24162025 {
     /** Danh sách đơn hàng của user (mới nhất trước). */
     List<Order_24162025> getOrdersByUser(int userId);
 
+    /** Danh sách đơn hàng của user theo trạng thái (status = null hoặc <= 0 để lấy tất cả). */
+    List<Order_24162025> getOrdersByUser(int userId, Integer status);
+
+    /** Đếm số lượng đơn hàng theo từng trạng thái của user. */
+    java.util.Map<Integer, Integer> getStatusCounts(int userId);
+
     /** Một đơn hàng của user (null nếu không tồn tại hoặc không thuộc user). */
     Order_24162025 getOrder(int userId, String orderId);
 }

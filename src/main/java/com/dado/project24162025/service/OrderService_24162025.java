@@ -8,6 +8,7 @@ import com.dado.project24162025.model.CartItem_24162025;
 import com.dado.project24162025.model.Order_24162025;
 
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 public class OrderService_24162025 implements IOrderService_24162025 {
@@ -66,7 +67,17 @@ public class OrderService_24162025 implements IOrderService_24162025 {
 
     @Override
     public List<Order_24162025> getOrders(int userId) {
-        return orderDAO.getOrdersByUser(userId);
+        return getOrders(userId, null);
+    }
+
+    @Override
+    public List<Order_24162025> getOrders(int userId, Integer status) {
+        return orderDAO.getOrdersByUser(userId, status);
+    }
+
+    @Override
+    public Map<Integer, Integer> getStatusCounts(int userId) {
+        return orderDAO.getStatusCounts(userId);
     }
 
     @Override

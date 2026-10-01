@@ -8,10 +8,18 @@ import java.util.List;
  * Đơn hàng = một bản ghi Cart đã được đặt (Cart.status >= 1).
  */
 public class Order_24162025 {
-    public static final int STATUS_PENDING = 1;     // Chờ xác nhận
-    public static final int STATUS_SHIPPING = 2;    // Đang giao
-    public static final int STATUS_COMPLETED = 3;   // Hoàn thành
-    public static final int STATUS_CANCELLED = 4;   // Đã hủy
+    public static final int STATUS_NEW = 1;         // Đơn hàng mới
+    public static final int STATUS_CONFIRMED = 2;   // Đã xác nhận
+    public static final int STATUS_PREPARING = 3;   // Chuẩn bị hàng
+    public static final int STATUS_SHIPPING = 4;    // Vận chuyển
+    public static final int STATUS_DELIVERING = 5;  // Giao hàng
+    public static final int STATUS_DELIVERED = 6;   // Đã giao
+    public static final int STATUS_CANCELLED = 7;   // Đơn hàng hủy
+    public static final int STATUS_RETURNED = 8;    // Đơn hàng hoàn
+
+    // Giữ tương thích ngược với các hằng số cũ
+    public static final int STATUS_PENDING = STATUS_NEW;
+    public static final int STATUS_COMPLETED = STATUS_DELIVERED;
 
     private String orderId;          // = Cart.cartId
     private int userId;
@@ -36,11 +44,15 @@ public class Order_24162025 {
 
     public String getStatusText() {
         switch (status) {
-            case STATUS_PENDING:   return "Chờ xác nhận";
-            case STATUS_SHIPPING:  return "Đang giao hàng";
-            case STATUS_COMPLETED: return "Hoàn thành";
-            case STATUS_CANCELLED: return "Đã hủy";
-            default:               return "Không xác định";
+            case STATUS_NEW:        return "Đơn hàng mới";
+            case STATUS_CONFIRMED:  return "Đã xác nhận";
+            case STATUS_PREPARING:  return "Chuẩn bị hàng";
+            case STATUS_SHIPPING:   return "Vận chuyển";
+            case STATUS_DELIVERING: return "Giao hàng";
+            case STATUS_DELIVERED:  return "Đã giao";
+            case STATUS_CANCELLED:  return "Đơn hàng hủy";
+            case STATUS_RETURNED:   return "Đơn hàng hoàn";
+            default:                return "Không xác định";
         }
     }
 

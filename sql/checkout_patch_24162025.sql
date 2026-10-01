@@ -3,10 +3,14 @@
 --
 -- Cart.status:
 --   0 = giỏ hàng đang dùng (chưa đặt)
---   1 = đã đặt hàng - chờ xác nhận (COD)
---   2 = đang giao
---   3 = hoàn thành
---   4 = đã hủy
+--   1 = Đơn hàng mới (COD mặc định)
+--   2 = Đã xác nhận
+--   3 = Chuẩn bị hàng
+--   4 = Vận chuyển
+--   5 = Giao hàng
+--   6 = Đã giao
+--   7 = Đơn hàng hủy
+--   8 = Đơn hàng hoàn
 USE OnlineShop_24162025;
 GO
 

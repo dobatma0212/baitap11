@@ -66,8 +66,84 @@ table.cart-table .cart-total td { background: #f0f3fa; font-size: 15px; }
 .checkout-form .pay-method small { display: block; margin-top: 4px; color: #555; }
 .checkout-form .back-link { display: inline-block; margin-left: 14px; font-size: 14px; }
 .btn-checkout { background: #1a5fb4; color: #fff; }
-.status { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 12px; background: #eee; }
-.status-1 { background: #fff3cd; color: #8a6d00; }
-.status-2 { background: #d6e9ff; color: #0b4a9e; }
-.status-3 { background: #e3f6e8; color: #0a7d27; }
-.status-4 { background: #fdeaea; color: #b40000; }
+.status {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    background: #eee;
+    white-space: nowrap;
+}
+/* 1: Đơn hàng mới */
+.status-1 { background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd; }
+/* 2: Đã xác nhận */
+.status-2 { background: #ede9fe; color: #7c3aed; border: 1px solid #ddd6fe; }
+/* 3: Chuẩn bị hàng */
+.status-3 { background: #fef3c7; color: #d97706; border: 1px solid #fde68a; }
+/* 4: Vận chuyển */
+.status-4 { background: #e0e7ff; color: #4338ca; border: 1px solid #c7d2fe; }
+/* 5: Giao hàng */
+.status-5 { background: #ffedd5; color: #ea580c; border: 1px solid #fed7aa; }
+/* 6: Đã giao */
+.status-6 { background: #dcfce7; color: #16a34a; border: 1px solid #bbf7d0; }
+/* 7: Đơn hàng hủy */
+.status-7 { background: #fee2e2; color: #dc2626; border: 1px solid #fecaca; }
+/* 8: Đơn hàng hoàn */
+.status-8 { background: #f3f4f6; color: #4b5563; border: 1px solid #d1d5db; }
+
+/* ===== Lịch sử đơn hàng & Bộ lọc trạng thái ===== */
+.order-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
+    background: #fff;
+    padding: 12px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.1);
+}
+.order-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #4b5563;
+    background: #f3f4f6;
+    border: 1px solid #e5e7eb;
+    text-decoration: none;
+    transition: all .15s ease-in-out;
+}
+.order-tab:hover {
+    background: #e5e7eb;
+    color: #111827;
+    text-decoration: none;
+}
+.order-tab.active {
+    background: #1a5fb4;
+    color: #fff;
+    border-color: #1a5fb4;
+    font-weight: 600;
+    box-shadow: 0 2px 4px rgba(26,95,180,.25);
+}
+.order-tab .tab-badge {
+    display: inline-block;
+    min-width: 18px;
+    height: 18px;
+    line-height: 18px;
+    padding: 0 6px;
+    border-radius: 9px;
+    font-size: 11px;
+    text-align: center;
+    background: #e5e7eb;
+    color: #374151;
+    font-weight: bold;
+}
+.order-tab.active .tab-badge {
+    background: #fff;
+    color: #1a5fb4;
+}
+

@@ -10,13 +10,16 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Đơn hàng của User (phân quyền bởi UserAuthFilter_24162025).
  *
- * GET /orders          : danh sách đơn hàng của tôi
- * GET /orders?id=...   : chi tiết một đơn hàng
+ * GET /orders                : danh sách tất cả đơn hàng
+ * GET /orders?status=1..8    : lọc danh sách đơn hàng theo trạng thái
+ * GET /orders?id=...         : chi tiết một đơn hàng
  */
 public class OrderController_24162025 extends HttpServlet {
 
@@ -39,8 +42,41 @@ public class OrderController_24162025 extends HttpServlet {
             return;
         }
 
-        List<Order_24162025> orders = orderService.getOrders(user.getUserId());
+        // Lọc theo trạng thái đơn hàng (1 đến 8)
+        String statusParam = req.getParameter("status");
+        Integer filterStatus = null;
+        if (statusParam != null && !statusParam.isBlank() && !"all".equalsIgnoreCase(statusParam.trim())) {
+            try {
+                int st = Integer.parseInt(statusParam.trim());
+                if (st >= 1 && st <= 8) {
+                    filterStatus = st;
+                }
+            } catch (NumberFormatException ignored) {}
+        }
+
+        List<Order_24162025> orders = orderService.getOrders(user.getUserId(), filterStatus);
+        Map<Integer, Integer> rawCounts = orderService.getStatusCounts(user.getUserId());
+        int totalOrders = 0;
+        for (int cnt : rawCounts.values()) {
+            totalOrders += cnt;
+        }
+
+        // JSP EL coi số nguyên (như 1, 2, ...) là kiểu Long.
+        // Map<Integer, Integer> khi map.get(Long) sẽ trả về null vì Integer.equals(Long) == false.
+        // Do đó map đưa vào request cần chứa cả key Long và Integer (và String) để JSP EL truy xuất chính xác:
+        Map<Object, Integer> statusCounts = new HashMap<>();
+        for (Map.Entry<Integer, Integer> entry : rawCounts.entrySet()) {
+            int status = entry.getKey();
+            int count = entry.getValue();
+            statusCounts.put(status, count);
+            statusCounts.put((long) status, count);
+            statusCounts.put(String.valueOf(status), count);
+        }
+
         req.setAttribute("orders", orders);
+        req.setAttribute("selectedStatus", filterStatus);
+        req.setAttribute("statusCounts", statusCounts);
+        req.setAttribute("totalOrders", totalOrders);
         req.getRequestDispatcher("/views/orderList_24162025.jsp").forward(req, resp);
     }
 }

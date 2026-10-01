@@ -8,7 +8,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class OrderDAO_24162025 implements IOrderDAO_24162025 {
 
@@ -50,7 +52,7 @@ public class OrderDAO_24162025 implements IOrderDAO_24162025 {
                             + "shippingAddress = ?, note = ?, paymentMethod = ? "
                             + "WHERE cartId = ? AND userId = ? AND status = 0";
             try (PreparedStatement ps = con.prepareStatement(sqlOrder)) {
-                ps.setInt(1, Order_24162025.STATUS_PENDING);
+                ps.setInt(1, Order_24162025.STATUS_NEW);
                 ps.setString(2, receiverName);
                 ps.setString(3, receiverPhone);
                 ps.setString(4, shippingAddress);
@@ -137,11 +139,26 @@ public class OrderDAO_24162025 implements IOrderDAO_24162025 {
 
     @Override
     public List<Order_24162025> getOrdersByUser(int userId) {
+        return getOrdersByUser(userId, null);
+    }
+
+    @Override
+    public List<Order_24162025> getOrdersByUser(int userId, Integer status) {
         List<Order_24162025> list = new ArrayList<>();
-        String sql = ORDER_SELECT + "WHERE c.userId = ? AND c.status > 0 ORDER BY c.buyDate DESC";
+        StringBuilder sql = new StringBuilder(ORDER_SELECT).append("WHERE c.userId = ? ");
+        if (status != null && status > 0) {
+            sql.append("AND c.status = ? ");
+        } else {
+            sql.append("AND c.status > 0 ");
+        }
+        sql.append("ORDER BY c.buyDate DESC");
+
         try (Connection con = DBConnection_24162025.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+             PreparedStatement ps = con.prepareStatement(sql.toString())) {
             ps.setInt(1, userId);
+            if (status != null && status > 0) {
+                ps.setInt(2, status);
+            }
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) list.add(mapRow(rs));
             }
@@ -149,6 +166,24 @@ public class OrderDAO_24162025 implements IOrderDAO_24162025 {
             e.printStackTrace();
         }
         return list;
+    }
+
+    @Override
+    public Map<Integer, Integer> getStatusCounts(int userId) {
+        Map<Integer, Integer> counts = new HashMap<>();
+        String sql = "SELECT status, COUNT(*) AS cnt FROM Cart WHERE userId = ? AND status > 0 GROUP BY status";
+        try (Connection con = DBConnection_24162025.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, userId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    counts.put(rs.getInt("status"), rs.getInt("cnt"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return counts;
     }
 
     @Override

@@ -15,6 +15,12 @@ public interface IOrderService_24162025 {
 
     List<Order_24162025> getOrders(int userId);
 
+    /** Lấy danh sách đơn hàng theo trạng thái (status = null hoặc <= 0 để lấy tất cả). */
+    List<Order_24162025> getOrders(int userId, Integer status);
+
+    /** Đếm số lượng đơn hàng theo từng trạng thái. */
+    java.util.Map<Integer, Integer> getStatusCounts(int userId);
+
     /** Chi tiết đơn hàng (kèm danh sách sản phẩm), null nếu không tồn tại / không thuộc user. */
     Order_24162025 getOrderDetail(int userId, String orderId);
 }
